@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Carter+One');
+
+
+
+.startScreen {
+    position: relative;
+    width: 1200px;
+    display: block;
+}
+.startScreen img {
+    width: 1200px;
+    height: auto;
+}
+.button {
+    position: absolute;
+    top:15%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: red;
+    font-family: 'Carter One', sans-serif;
+    border-radius: 2%;
+    border-color: red;
+    border-width: 10px;
+    cursor: pointer;
+    padding: 24px 24px;
+
+}
+
+#finish {
+    display: none;
+}
