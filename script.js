@@ -109,9 +109,9 @@ function movePlayer(){
 
 }
 
-class Obstacle {
-    constructor
-}
+// class Obstacle {
+//     constructor
+// }
 
 function createObstacles() {
     context.fillStyle = 'magenta';
