@@ -1,13 +1,16 @@
 document.getElementById('startbutton').addEventListener('click', startGame);
-document.getElementById('restart').addEventListener('click', startGame);
+document.getElementById('restart').addEventListener('click', ()=>location.reload());
 
 
 function startGame(){
+
     canvas = document.getElementById('canvas');
     context = canvas.getContext('2d');
     document.getElementById('start').style.display = 'none';
     document.getElementById('finish').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
+    //tried below to start game without reloading, didn't work
+    // context.clearRect(0,0, canvas.width, canvas.height);
 
     posX = 0
     posY = canvas.height/2
@@ -58,8 +61,11 @@ function changeDirection(event) {
 }
 
 function drawGame() {
-    context.fillStyle = '#30D5C8';
-    context.fillRect(0,0,canvas.width, canvas.height);
+    // context.fillStyle = '#30D5C8';
+    // context.fillRect(0,0,canvas.width, canvas.height);
+    const gameBackground = new Image();
+    gameBackground.src = 'images/gamebackground.png';
+    context.drawImage(gameBackground, 0, 0,canvas.width, canvas.height);
 
     drawPlayer();
     movePlayer();
@@ -99,9 +105,9 @@ class Obstacle {
         this.y = y;
     }
     update() {
-        const backgroundImage = new Image();
-        backgroundImage.src = 'images/palm-tree.png';
-        context.fillStyle = context.createPattern(backgroundImage, 'repeat');
+        const obstacleBackground = new Image();
+        obstacleBackground.src = 'images/palm-tree.png';
+        context.fillStyle = context.createPattern(obstacleBackground, 'repeat');
         // context.fillRect(0,0,canvas.width, canvas.height);
 
         // context.fillStyle = this.color;
