@@ -27,15 +27,16 @@ function startGame(){
     myInterval = setInterval(updateGame, 1000/10);
     
     canvas.addEventListener('click', changeDirection)
-   
+    createObstacles();
+
 }
 
 function updateGame() {
          drawGame();
-        createObstacles();
+        updateObstacles();
         drawPlayer();
         movePlayer();
-        obs1CrashCheck();
+        CrashCheck();
         calculateScore();
 }
 
@@ -78,29 +79,31 @@ let posX = 0
 let posY = canvas.height/2
 let speedX = 2;
 let speedY = 0;
-let obs1X = 0;
-let obs1Y = 100;
-let obs2X = 400;
-let obs2Y = 300;
-let obs3X = 800;
-let obs3Y = 200;
-let obs1W = 100;
-let obs1H = 50;
-let obs2W = 70;
-let obs2H = 250;
-let obs3W = 300;
-let obs3H = 200;
+// let obs1X = 0;
+// let obs1Y = 100;
+// let obs2X = 400;
+// let obs2Y = 300;
+// let obs3X = 800;
+// let obs3Y = 200;
+// let obs1W = 100;
+// let obs1H = 50;
+// let obs2W = 70;
+// let obs2H = 250;
+// let obs3W = 300;
+// let obs3H = 200;
 let myInterval;
 let score = 0;
+let myObstacles = [];
 
 
-obs1X = Math.random() * (canvas.width - obs1W);
-obs1Y = Math.random() * (canvas.height - obs1H)
+// obs1X = Math.random() * (canvas.width - obs1W);
+// obs1Y = Math.random() * (canvas.height - obs1H)
 
 
 function drawPlayer() {
     context.fillStyle = 'black';
     context.fillRect(posX,posY,30,30);
+    
 }
 
 function movePlayer(){
@@ -109,18 +112,52 @@ function movePlayer(){
 
 }
 
-// class Obstacle {
-//     constructor
-// }
+class Obstacle {
+    constructor(width, height, color, x, y) {
+        this.width = width;
+        this.height = height; 
+        this.color = color;
+        this.x = x;
+        this.y = y;
+    }
+    update() {
+        context.fillStyle = this.color;
+        context.fillRect(this.x, this.y, this.width, this.height);
+    }
+}
 
 function createObstacles() {
-    context.fillStyle = 'magenta';
-    context.fillRect(obs1X,obs1Y, obs1W, obs1H);
-    context.fillStyle = 'yellow';
-    context.fillRect(obs2X,obs2Y, obs2W, obs2H);
-    context.fillStyle = 'green';
-    context.fillRect(obs3X,obs3Y, obs3W, obs3H);
+    let obstacle1W = Math.floor(Math.random() * 400);
+    let obstacle1H = Math.floor(Math.random() * 200);
+
+    let obstacle1X = Math.floor(Math.random()*(canvas.width - obstacle1W));
+    let obstacle1Y = Math.floor(Math.random()*(canvas.height - obstacle1H));
+
+    let obstacle2W = Math.floor(Math.random() * 400);
+    let obstacle2H = Math.floor(Math.random() * 200);
+
+    let obstacle2X = Math.floor(Math.random()*(canvas.width - obstacle2W));
+    let obstacle2Y = Math.floor(Math.random()*(canvas.height - obstacle2H));
+
+    myObstacles.push(new Obstacle(obstacle1W,obstacle1H,'blue',obstacle1X, obstacle1Y));
+    myObstacles.push(new Obstacle(obstacle2W,obstacle2H,'magenta',obstacle2X, obstacle2Y));
+
+    // console.log(myObstacles);
+
 }
+
+function updateObstacles() {
+     for (i = 0; i < myObstacles.length; i++) {
+        myObstacles[i].update();
+      }
+    // context.fillStyle = 'magenta';
+    // context.fillRect(obs1X,obs1Y, obs1W, obs1H);
+    // context.fillStyle = 'yellow';
+    // context.fillRect(obs2X,obs2Y, obs2W, obs2H);
+    // context.fillStyle = 'green';
+    // context.fillRect(obs3X,obs3Y, obs3W, obs3H);
+}
+
 function calculateScore() {
     score++;
     context.fillStyle = 'black';
@@ -137,23 +174,25 @@ function checkBoundary(ship, shipSize, boundaryStart, boundarySize) {
         && ship <= boundaryStart + boundarySize
 }
 
-function obs1CrashCheck() {
-    
-    if (checkBoundary(posX,30, obs1X, obs1W) 
-        && checkBoundary(posY, 30, obs1Y, obs1H)){
+function CrashCheck() {
+    for(let j=0; j < myObstacles.length; j++ ) {
+        // console.log(myObstacles[j].x);
+        // console.log(myObstacles[j].y);
+        // console.log(myObstacles[j].width);
+        // console.log(myObstacles[j].height);
+        // console.log(posX);
+        // console.log(posY); 
+        if ((checkBoundary(posX, 30, myObstacles[j].x, myObstacles[j].width) 
+        && checkBoundary(posY, 30, myObstacles[j].y, myObstacles[j].height))
+        || posX > canvas.width-30 || posX < 0 || posY < 0 || posY > canvas.height-30) {
             console.log('object collision' )
             stopGame();
         }
 
-    return true;
-    // if ((posY < (obs1Y+obs1H)) && (posX<(obs1X+obs1W)) ) {
-    //     console.log('object collisio')
-    //     stopGame();
-    // }
     // return true;
-    //console.log(`posY is ${posY} and pos obs is ${obs1Y+obs1H}`)
-}
-
+    }   
+    }
+    
 function stopGame() {
     console.log('clear working')
     clearInterval(myInterval);
@@ -161,6 +200,3 @@ function stopGame() {
     document.getElementById('canvas').style.display = 'none';
 
 }
-
-// startGame();
-
