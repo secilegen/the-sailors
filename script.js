@@ -8,16 +8,6 @@ function startGame(){
     document.getElementById('start').style.display = 'none';
     document.getElementById('finish').style.display = 'none';
     document.getElementById('canvas').style.display = 'block';
-    
-    //I had to assign an ID in order to clear the interval
-    // setInterval(() => {
-    //     drawGame();
-    //     createObstacles();
-    //     drawPlayer();
-    //     movePlayer();
-    //     crashCheck();
-    // }, 1000/2)
-
 
     posX = 0
     posY = canvas.height/2
@@ -41,7 +31,7 @@ function updateGame() {
 }
 
 function changeDirection(event) {
-    //FOR THURSDAY if click did not happen in boundary of ship, do nothing
+    //FOR LATER if click did not happen in boundary of ship, do nothing
     console.log(
         "clientX: " + event.clientX +
         " - clientY: " + event.clientY);
@@ -77,33 +67,21 @@ function drawGame() {
 
 let posX = 0
 let posY = canvas.height/2
+let shipWidth = 40;
+let shipHeight = 40;
 let speedX = 2;
 let speedY = 0;
-// let obs1X = 0;
-// let obs1Y = 100;
-// let obs2X = 400;
-// let obs2Y = 300;
-// let obs3X = 800;
-// let obs3Y = 200;
-// let obs1W = 100;
-// let obs1H = 50;
-// let obs2W = 70;
-// let obs2H = 250;
-// let obs3W = 300;
-// let obs3H = 200;
 let myInterval;
 let score = 0;
 let myObstacles = [];
 
-
-// obs1X = Math.random() * (canvas.width - obs1W);
-// obs1Y = Math.random() * (canvas.height - obs1H)
-
-
 function drawPlayer() {
-    context.fillStyle = 'black';
-    context.fillRect(posX,posY,30,30);
-    
+    // context.fillStyle = 'black';
+    // context.fillRect(posX,posY, shipWidth, shipHeight);
+    const img = new Image();
+    img.src = 'images/sailing-boat.png';
+    context.drawImage(img, posX, posY, shipWidth, shipHeight);
+
 }
 
 function movePlayer(){
@@ -113,15 +91,20 @@ function movePlayer(){
 }
 
 class Obstacle {
-    constructor(width, height, color, x, y) {
+    constructor(width, height, x, y) {
         this.width = width;
         this.height = height; 
-        this.color = color;
+        // this.color = color;
         this.x = x;
         this.y = y;
     }
     update() {
-        context.fillStyle = this.color;
+        const backgroundImage = new Image();
+        backgroundImage.src = 'images/palm-tree.png';
+        context.fillStyle = context.createPattern(backgroundImage, 'repeat');
+        // context.fillRect(0,0,canvas.width, canvas.height);
+
+        // context.fillStyle = this.color;
         context.fillRect(this.x, this.y, this.width, this.height);
     }
 }
@@ -139,8 +122,8 @@ function createObstacles() {
     let obstacle2X = Math.floor(Math.random()*(canvas.width - obstacle2W));
     let obstacle2Y = Math.floor(Math.random()*(canvas.height - obstacle2H));
 
-    myObstacles.push(new Obstacle(obstacle1W,obstacle1H,'blue',obstacle1X, obstacle1Y));
-    myObstacles.push(new Obstacle(obstacle2W,obstacle2H,'magenta',obstacle2X, obstacle2Y));
+    myObstacles.push(new Obstacle(obstacle1W,obstacle1H,obstacle1X, obstacle1Y));
+    myObstacles.push(new Obstacle(obstacle2W,obstacle2H,obstacle2X, obstacle2Y));
 
     // console.log(myObstacles);
 
@@ -165,7 +148,7 @@ function calculateScore() {
 }
 
 function isShipClicked(clickX, clickY, shipX, shipWidth, shipY, shipHeight) {
-    //FOR THURSDAY calculate if click hits the ship
+    //FOR LATER calculate if click hits the ship
     return false
 }
 
@@ -182,9 +165,9 @@ function CrashCheck() {
         // console.log(myObstacles[j].height);
         // console.log(posX);
         // console.log(posY); 
-        if ((checkBoundary(posX, 30, myObstacles[j].x, myObstacles[j].width) 
-        && checkBoundary(posY, 30, myObstacles[j].y, myObstacles[j].height))
-        || posX > canvas.width-30 || posX < 0 || posY < 0 || posY > canvas.height-30) {
+        if ((checkBoundary(posX, shipWidth, myObstacles[j].x, myObstacles[j].width) 
+        && checkBoundary(posY, shipHeight, myObstacles[j].y, myObstacles[j].height))
+        || posX > canvas.width-shipWidth || posX < 0 || posY < 0 || posY > canvas.height-shipHeight) {
             console.log('object collision' )
             stopGame();
         }
