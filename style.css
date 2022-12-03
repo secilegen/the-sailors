@@ -30,3 +30,13 @@
     display: none;
 }
 
+#scoreText {
+    position: absolute;
+    top:30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 30px;
+    color: black;
+    font-family: 'Carter One', sans-serif;
+ 
+}

@@ -199,5 +199,5 @@ function stopGame() {
     clearInterval(myInterval);
     document.getElementById('finish').style.display = 'block';
     document.getElementById('canvas').style.display = 'none';
-    // document.getElementById('scoreValue').innerHTML = score;
+    document.getElementById('scoreValue').innerHTML = score;
 }
