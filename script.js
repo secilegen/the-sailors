@@ -10,6 +10,8 @@ let speedY = 0;
 let myInterval;
 let score = 0;
 let myObstacles = [];
+const obstacleBackground = new Image();
+obstacleBackground.src = './images/palm-tree.png';
 
 function startGame(){
 
@@ -91,7 +93,7 @@ function drawGame() {
     // context.fillStyle = '#30D5C8';
     // context.fillRect(0,0,canvas.width, canvas.height);
     const gameBackground = new Image();
-    gameBackground.src = 'images/gamebackground.png';
+    gameBackground.src = './images/gamebackground.png';
     context.drawImage(gameBackground, 0, 0,canvas.width, canvas.height);
 
     drawPlayer();
@@ -102,7 +104,7 @@ function drawPlayer() {
     // context.fillStyle = 'black';
     // context.fillRect(posX,posY, shipWidth, shipHeight);
     const img = new Image();
-    img.src = 'images/sailing-boat.png';
+    img.src = './images/sailing-boat.png';
     context.drawImage(img, posX, posY, shipWidth, shipHeight);
 
 }
@@ -110,7 +112,6 @@ function drawPlayer() {
 function movePlayer(){
     posX += speedX;
     posY += speedY;
-
 }
 
 class Obstacle {
@@ -122,8 +123,8 @@ class Obstacle {
         this.y = y;
     }
     update() {
-        const obstacleBackground = new Image();
-        obstacleBackground.src = 'images/palm-tree.png';
+        // const obstacleBackground = new Image();
+        // obstacleBackground.src = './images/palm-tree.png';
         context.fillStyle = context.createPattern(obstacleBackground, 'repeat');
         // context.fillRect(0,0,canvas.width, canvas.height);
         context.fillRect(this.x, this.y, this.width, this.height);
@@ -198,4 +199,5 @@ function stopGame() {
     clearInterval(myInterval);
     document.getElementById('finish').style.display = 'block';
     document.getElementById('canvas').style.display = 'none';
+    // document.getElementById('scoreValue').innerHTML = score;
 }
