@@ -12,6 +12,8 @@ let score = 0;
 let myObstacles = [];
 const obstacleBackground = new Image();
 obstacleBackground.src = './images/palm-tree.png';
+const img = new Image();
+img.src = './images/sailing-boat.png';
 
 function startGame(){
 
@@ -103,8 +105,7 @@ function drawGame() {
 function drawPlayer() {
     // context.fillStyle = 'black';
     // context.fillRect(posX,posY, shipWidth, shipHeight);
-    const img = new Image();
-    img.src = './images/sailing-boat.png';
+    
     context.drawImage(img, posX, posY, shipWidth, shipHeight);
 
 }
@@ -189,7 +190,9 @@ function CrashCheck() {
         
         if ((checkBoundary(posX, shipWidth, myObstacles[j].x, myObstacles[j].width) 
         && checkBoundary(posY, shipHeight, myObstacles[j].y, myObstacles[j].height))
-        || posX > canvas.width-shipWidth || posX < 0 || posY < 0 || posY > canvas.height-shipHeight) {
+        || posX > canvas.width-shipWidth 
+        || posX < 0 || posY < 0 
+        || posY > canvas.height-shipHeight) {
             stopGame();
         }
     }   
